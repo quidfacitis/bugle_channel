@@ -1,6 +1,6 @@
 ' ********** Copyright 2016 Roku Corp.  All Rights Reserved. **********
 
-Function init ()
+sub init ()
     m.PodcastArt = m.top.findNode("PodcastArt") 'Album Artwork
     m.Background = m.top.findNode("Background") 'Background Artwork
     m.AlbumPlay = m.top.findNode("AlbumPlay") 'Bottom Playbar Artwork
@@ -31,7 +31,7 @@ Function init ()
     m.Background.uri = m.global.uri
     m.AlbumPlay.uri = m.global.uri
 
-    m.Summary.text = m.global.summary  'Description underneath Album artwork
+    m.Summary.text = m.global.summary 'Description underneath Album artwork
     m.Summary.color = m.global.SummaryColor 'Text color of Description
     m.Title.text = m.global.PodcastTitle 'Podcast Label of title at top
     m.Author.text = m.global.author 'Podcast label of author at top
@@ -61,7 +61,7 @@ Function init ()
     m.global.observeField("Rewind", "Rewind") 'Calls function for trickplay when Rewind button is pressed
 
     m.check = 0 'Initializes m.check before opening a podcast
-end Function
+end sub
 
 sub closeWarning()
     m.Warning.visible = false
@@ -76,7 +76,7 @@ sub Rewind() 'Rewind function
 end sub
 
 sub controlaudioplay() 'Makes sure that audio stops when finished
-    if (m.audio.state= "finished")
+    if (m.audio.state = "finished")
         m.audio.control = "stop"
         m.audio.control = "none"
     end if
@@ -105,13 +105,13 @@ sub playaudio() 'Plays audio and changes Currently playing parameter
     m.TimerAnim.duration = m.audiocontent.Length 'Sets animation duration for playbar
     m.TimerInterp.keyValue = "[0,1470]" 'Sets width for animations of playbar
     m.TimerAnim.control = "start"
-    m.split = 1470.0/m.audiocontent.Length 'm.split will be used for trickplay. It will help reset the animation's for the trickplay bar rectangle based off of new remaining time of audio
+    m.split = 1470.0 / m.audiocontent.Length 'm.split will be used for trickplay. It will help reset the animation's for the trickplay bar rectangle based off of new remaining time of audio
     m.AudioDuration.text = secondsToMinutes(m.audiocontent.Length) 'toString to set audio playback length
     m.PlayTime.control = "start" ' starts audio
     m.AudioTime = 0'resets audiotime
 end sub
 
-function onKeyEvent(key as String, press as Boolean) as Boolean 'Key functions for UI
+function onKeyEvent(key as string, press as boolean) as boolean 'Key functions for UI
     if press
         if key = "replay"
             if (m.Audio.state = "playing")
@@ -131,24 +131,24 @@ function onKeyEvent(key as String, press as Boolean) as Boolean 'Key functions f
                 m.PlayTime.control = "start"
                 m.Play.text = "O"
             end if
-                return true
+            return true
         else if key = "right"
-                skip10Seconds(true)
-                return true
+            skip10Seconds(true)
+            return true
         else if key = "left"
-                skip10Seconds(false)
-                return true
+            skip10Seconds(false)
+            return true
         end if
     end if
     m.list.setFocus(true)
-end Function
+end function
 
-sub skip10Seconds(forward as Boolean) 'trickplay functions. 2 Functions for each FastForward and Rewind to account for edge cases. (Skipping or Rewinding 10 seconds past or before)
+sub skip10Seconds(forward as boolean) 'trickplay functions. 2 Functions for each FastForward and Rewind to account for edge cases. (Skipping or Rewinding 10 seconds past or before)
     if forward then
         if (m.check - 10) > m.AudioTime
             print m.check
             m.AudioTime += 10
-            m.TimerInterp.KeyValue = [m.TimerRect.width + m.split*10, 1470] 'Calculates new trickplay animation values for rectangle
+            m.TimerInterp.KeyValue = [m.TimerRect.width + m.split * 10, 1470] 'Calculates new trickplay animation values for rectangle
             m.TimerAnim.duration = m.check - (m.AudioTime + 10) 'Calculates remaining time of audio
             m.FFAnim.control = "start"
             m.Audio.seek = m.AudioTime
@@ -170,7 +170,7 @@ sub skip10Seconds(forward as Boolean) 'trickplay functions. 2 Functions for each
     else
         if m.AudioTime > 10
             m.AudioTime -= 10
-            m.TimerInterp.KeyValue = [m.TimerRect.width - m.split*10, 1470]
+            m.TimerInterp.KeyValue = [m.TimerRect.width - m.split * 10, 1470]
             m.TimerAnim.duration = m.check - (m.AudioTime - 10)
             m.RewindAnim.control = "start"
             m.PlayTime.control = "start"
@@ -190,16 +190,16 @@ sub skip10Seconds(forward as Boolean) 'trickplay functions. 2 Functions for each
     end if
 end sub
 
-Function secondsToMinutes(seconds as integer) as String 'toString method to convert any format of time to specific time format. ex: secondsToMinutes(66) prints "1:06"
-    x = seconds\60
-    y = seconds MOD 60
+function secondsToMinutes(seconds as integer) as string 'toString method to convert any format of time to specific time format. ex: secondsToMinutes(66) prints "1:06"
+    x = seconds \ 60
+    y = seconds mod 60
     if y < 10
         y = y.toStr()
-        y = "0"+y
+        y = "0" + y
     else
         y = y.toStr()
     end if
     result = x.toStr()
-    result = result +":"+ y
+    result = result + ":" + y
     return result
-end Function
+end function
