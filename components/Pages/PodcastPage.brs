@@ -22,6 +22,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
       'TO DO: REDIRECT TO EPISODES PAGE FOR SELECTED PODCAST
       focusedIndex = m.podcastPagePosterGrid.itemFocused
       focusedPoster = m.podcastPagePosterGrid.content.getChild(focusedIndex)
+
+      navigateToPage(m.top, "PodcastEpisodesPage", { pageName: focusedPoster.id })
+
       ?"***SELECTED PODCAST: "focusedPoster.id
       handled = true
     end if

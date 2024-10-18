@@ -1,0 +1,15 @@
+<component name="PodcastEpisodesPage" extends="BaseControl">
+	<script type="text/brightscript" uri="./PodcastEpisodesPage.brs"/>
+  <interface>
+    <field id="pageParams" type="assocArray" value="" onChange="onPageParamsChange" />
+  </interface>
+  <children>
+    <Label
+      id="temporaryLabel"
+      width="300"
+      height="50"
+      translation="[300, 300]"
+      font="font:MediumBoldSystemFont"
+    />
+  </children>
+</component>

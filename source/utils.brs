@@ -18,3 +18,17 @@ function getPodcastList()
     },
   ]
 end function
+
+function navigateToPage(node as dynamic, pageName as string, params = {}) as boolean
+  if node <> invalid
+    if node.id = "AppScene"
+      node.currentPageParams = params
+      node.currentPage = pageName
+      return true
+    end if
+    parentNode = node.getParent()
+    navigateToPage(parentNode, pageName, params)
+  else
+    return false
+  end if
+end function

@@ -4,6 +4,7 @@
 	<script type="text/brightscript" uri="pkg:/source/utils.brs"/>
 	<interface>
 		<field id="currentPage" type="string" value="" alwaysNotify="true" onChange="onCurrentPageChange"/>
+		<field id="currentPageParams" type="assocArray" value="{}" onChange="onCurrentPageParamsChange" />
 	</interface>
 	<children>
 		<!-- <PodcastPage /> -->
