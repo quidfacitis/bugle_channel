@@ -18,3 +18,4 @@ function LoadConfig()
         m.reverseOrder = false 'If true, feed is loaded bottom-to-top (content at the end of your feed would be the first item in the playlist)
 
 end function
+

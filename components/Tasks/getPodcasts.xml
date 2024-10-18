@@ -1,0 +1,7 @@
+<component name = "GetPodcasts" extends = "Task" >
+  <script type ="text/brightscript" uri = "./getPodcasts.brs"/>
+  <script type="text/brightscript" uri="pkg:/source/utils.brs"/>
+  <interface>
+    <field id = "content" type = "node" />
+  </interface>
+</component>

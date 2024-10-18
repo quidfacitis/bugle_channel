@@ -1,0 +1,3 @@
+<component name="BaseControl" extends="Group">
+	<script type="text/brightscript" uri="pkg:/source/utils.brs"/>
+</component>

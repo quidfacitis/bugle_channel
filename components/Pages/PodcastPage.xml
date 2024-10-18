@@ -1,0 +1,12 @@
+<component name="PodcastPage" extends="BaseControl" initialFocus="podcastPagePosterGrid">
+	<script type="text/brightscript" uri="./PodcastPage.brs"/>
+  <children>
+		<PosterGrid
+			id="podcastPagePosterGrid"
+			translation="[300, 300]"
+			basePosterSize="[700, 700]"
+			numRows="1"
+			numColumns="2"
+			itemSpacing="[100, 0]" />
+  </children>
+</component>

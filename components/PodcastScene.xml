@@ -59,7 +59,7 @@
 						color = "0xFFFFFFFF"
 						translation = "[0,5]"
 					/>
-					<Label
+					<!-- <Label
 						id = "CurrentlyPlaying"
 						width = "450"
 						height = "95"
@@ -71,7 +71,7 @@
 							role = "font"
 							uri = "pkg:/fonts/sosa-regular-webfont.ttf"
 							size = "36"/>
-					</Label>
+					</Label> -->
 				</Rectangle>
 			</Poster>
 		</Group>
@@ -81,13 +81,7 @@
 			translation = "[690,310]"
 			itemSize = "[810,60]"
 			numRows = "10"
-			color = "0x000000FF">
-			<ContentNode
-			id = "LabelListContent"
-			role = "content"
-			>
-			</ContentNode>
-		</MyLabelList>
+			color = "0x000000FF"/>
 
 		<!-- Translation in Group field to account for safety zones. Can be removed if testing on TV without safety zones -->
 		<Group
@@ -228,7 +222,8 @@
 			/>
 		</Animation>
 
-		<Group>
+		<Group
+			opacity="0.25">
 			<Rectangle
 				id = "TitleBackground"
 				width = "590"
@@ -245,12 +240,12 @@
 					height = "60"
 					translation = "[30,15]"
 					>
-					<Font
+					<!-- <Font
 						role = "font"
 						uri = "pkg:/fonts/avenirltstd-light-webfont.ttf"
 						id = "avenir-light"
 						size = "64"
-					/>
+					/> -->
 				</Label>
 			</Rectangle>
 			<Rectangle
@@ -269,24 +264,25 @@
 					height = "40"
 					translation = "[30,20]"
 				>
-				<Font
+				<!-- <Font
 						role = "font"
 						uri = "pkg:/fonts/avenirltstd-light-webfont.ttf"
 						id = "avenir-light"
 						size = "42"
-				/>
+				/> -->
 				</Label>
 			</Rectangle>
 		</Group>
 			<!-- Set to Text to summary -->
 			<Label
 				id = "Summary"
-				height = "350"
+				height = "700"
 				width = "475"
 				color = "0x000000FF"
 				wrap = "true"
-				ellipsizeOnBoundary = "true"
-				translation = "[100,575]">
+				ellipsizeOnBoundary = "false"
+				>
+				<!-- translation = "[100,575]" -->
 			</Label>
 			<!-- Append Episodes for LabelListContent -->
 		<Dialog

@@ -12,16 +12,18 @@ function RSSParse()
     m.glb.Addfield("summary", "string", true)
     m.glb.Addfield("author", "string", true)
     m.glb.PodcastTitle = MyContent["title"].getText()
+    m.glb.author = "Andy Zaltzman"
     m.glb.podcastImageUrl = MyContent["itunes:image"].getAttributes()["href"]
 
     if MyContent.DoesExist("itunes:summary")
         summary = MyContent["itunes:summary"].getText()
-        m.glb.summary = summary
+        'STRIP OUT <p> TAGS
+
+        m.glb.summary = stripOutHtmlTags(summary)
     end if
 
-    m.glb.author = MyContent["itunes:author"].getText()
+    ' m.glb.author = MyContent["itunes:author"].getText()
     m.glb.warning = 0
-
 
     ?"PODCAST TITLE "m.glb.PodcastTitle
     ?"PODCAST IMAGE URL "m.glb.podcastImageUrl
@@ -92,6 +94,7 @@ function RSSParse()
         ?"EXPLICIT: "row.rating
     end for
 end function
+
 
 function GetPodCastInfo(PodcastUrl as string) as object'Used to get main info.. Podcast Title, Podcast Artwork, Summary, etc...
     url = createObject("roUrlTransfer")
