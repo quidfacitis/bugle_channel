@@ -3,5 +3,6 @@
   <script type="text/brightscript" uri="pkg:/source/utils.brs"/>
   <interface>
     <field id = "content" type = "node" />
+    <field id = "feedUrls" type = "array" value="[]" />
   </interface>
 </component>

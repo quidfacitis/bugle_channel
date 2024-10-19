@@ -1,0 +1,9 @@
+<component name = "GetPodcastEpisodes" extends = "Task" >
+  <script type ="text/brightscript" uri = "./getPodcastEpisodes.brs"/>
+  <!-- <script type="text/brightscript" uri="pkg:/source/utils.brs"/> -->
+  <interface>
+    <field id = "content" type = "node" />
+    <field id = "feedUrl" type = "string" onChange="onFeedUrlChange" />
+    <field id = "episodeMetadata" type = "array" />
+  </interface>
+</component>

@@ -6,7 +6,10 @@ sub getPodcasts()
   content = createObject("roSGNode", "ContentNode")
   podcastList = getPodcastList()
   index = 0
+
+  feedUrls = []
   for each podcast in podcastList
+    feedUrls.push(podcast.feed)
     podcastPoster = content.createChild("ContentNode")
     'Place podcast name on 'id' field to use when redirecting to podcastEpisodes page
     podcastPoster.id = podcast.name
@@ -15,5 +18,6 @@ sub getPodcasts()
     podcastPoster.y = 0
     index = index + 1
   end for
+  m.top.feedUrls = feedUrls
   m.top.content = content
 end sub

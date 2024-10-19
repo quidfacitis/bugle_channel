@@ -13,19 +13,18 @@ end sub
 
 sub placeContentOnPosterGrid()
   m.podcastPagePosterGrid.content = m.getPodcastsTask.content
+  m.feedUrls = m.getPodcastsTask.feedUrls
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
   handled = false
   if press
     if (key = "OK")
-      'TO DO: REDIRECT TO EPISODES PAGE FOR SELECTED PODCAST
       focusedIndex = m.podcastPagePosterGrid.itemFocused
       focusedPoster = m.podcastPagePosterGrid.content.getChild(focusedIndex)
 
-      navigateToPage(m.top, "PodcastEpisodesPage", { pageName: focusedPoster.id })
+      navigateToPage(m.top, "PodcastEpisodesPage", { pageName: focusedPoster.id, feedUrl: m.feedUrls[focusedIndex] })
 
-      ?"***SELECTED PODCAST: "focusedPoster.id
       handled = true
     end if
   end if

@@ -4,12 +4,46 @@
     <field id="pageParams" type="assocArray" value="" onChange="onPageParamsChange" />
   </interface>
   <children>
-    <Label
-      id="temporaryLabel"
-      width="300"
-      height="50"
-      translation="[300, 300]"
-      font="font:MediumBoldSystemFont"
+    <LayoutGroup
+      translation="[75, 100]"
+      itemSpacings="[50, 50, 50]"
+      >
+      <Label
+        id="title"
+        width="800"
+        font="font:LargeBoldSystemFont"
+        wrap = "true"
+        />
+      <Label
+        id="subtitle"
+        width="800"
+        wrap = "true"
+
+        />
+      <LayoutGroup
+        layoutDirection="horiz"
+        itemSpacings="[30]">
+        <Label
+          id="pubDate"
+          width="300"
+          />
+        <Label
+          id="duration"
+          width="300"
+          />
+      </LayoutGroup>
+      <Label
+        id="description"
+				width = "800"
+				wrap = "true"
+        font="font:SmallestSystemFont"
+				ellipsizeOnBoundary = "true" />
+    </LayoutGroup>
+    <LabelList
+      id="episodeList"
+      itemSize="[800,80]"
+      numRows="10"
+      wrapDividerHeight="20"
     />
   </children>
 </component>
