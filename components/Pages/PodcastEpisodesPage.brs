@@ -52,7 +52,7 @@ sub setText(metadata)
   if metaData["itunes:subtitle"] <> invalid
     m.subtitle.text = metaData["itunes:subtitle"]
   else
-    m.subtitle.text = "A classic episode from " + m.pageParams.pageName
+    m.subtitle.text = "A classic episode from " + m.pageParams.podcastName
   end if
   m.pubDate.text = shortenPubDate(metaData.pubDate)
   m.duration.text = "Duration: " + metaData["itunes:duration"]
@@ -65,3 +65,14 @@ function shortenPubDate(pubDate) as string
   return pubDate.join(" ")
 end function
 
+function onKeyEvent(key as string, press as boolean) as boolean
+  handled = false
+  if press
+    if (key = "back")
+      'navigate back to PodcastPage
+      navigateToPage(m.top, m.pageParams.navigateFromPage, {})
+      handled = true
+    end if
+  end if
+  return handled
+end function
