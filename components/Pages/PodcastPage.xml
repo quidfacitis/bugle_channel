@@ -1,5 +1,8 @@
 <component name="PodcastPage" extends="BaseControl" initialFocus="podcastPagePosterGrid">
 	<script type="text/brightscript" uri="./PodcastPage.brs"/>
+	<interface>
+		<field id="initialFocus" type="string" value="podcastPagePosterGrid" />
+	</interface>
   <children>
 		<PosterGrid
 			id="podcastPagePosterGrid"

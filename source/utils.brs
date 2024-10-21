@@ -1,4 +1,4 @@
-'courtesy of "lewi-p" from Roku dev forum - https://community.roku.com/t5/Roku-Developer-Program/Strip-out-HTML-Tags/td-p/297198
+'stripOutHtmlTags courtesy of "lewi-p" from Roku dev forum - https://community.roku.com/t5/Roku-Developer-Program/Strip-out-HTML-Tags/td-p/297198
 function stripOutHtmlTags(baseStr as string) as string
   r = createObject("roRegex", "<[^<]+?>", "i")
   return r.replaceAll(baseStr, "")

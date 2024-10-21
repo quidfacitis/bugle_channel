@@ -9,15 +9,30 @@ sub onCurrentPageChange(msg as object)
 
   'TODO - CHECK IF PAGE NAME MACHES LIST OF EXISTING PAGE NAMES
 
-  newPage = CreateObject("roSGNode", pageName)
-  newPage.id = pageName
+  if pageName = ""
+    m.pageContainer.removeChildIndex(0)
+    newChildAtZero = m.pageContainer.getChild(0)
+    newChildAtZero.visible = true
+    if newChildAtZero.hasField("initialFocus")
+      newChildAtZero.findNode(newChildAtZero.initialFocus).setFocus(true)
+    else
+      newChildAtZero.getChild(0).setFocus(true)
+    end if
+  else
+    newPage = CreateObject("roSGNode", pageName)
+    newPage.id = pageName
 
-  if newPage.hasField("pageParams")
-    newPage.pageParams = m.currentPageParams
+    if newPage.hasField("pageParams")
+      newPage.pageParams = m.currentPageParams
+    end if
+
+    m.pageContainer.insertChild(newPage, 0)
+
+    childAtOne = m.pageContainer.getChild(1)
+    if childAtOne <> invalid
+      childAtOne.visible = false
+    end if
   end if
-
-  m.pageContainer.removeChildIndex(0)
-  m.pageContainer.appendChild(newPage)
 end sub
 
 sub onCurrentPageParamsChange(msg as object)

@@ -1,4 +1,5 @@
 sub init()
+  m.top.id = "podcastEpisodesPage"
   m.episodeList = m.top.findNode("episodeList")
   m.episodeList.setFocus(true)
   m.episodeList.observeField("itemFocused", "onItemFocusedChange")
@@ -69,8 +70,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
   handled = false
   if press
     if (key = "back")
-      'navigate back to PodcastPage
-      navigateToPage(m.top, m.pageParams.navigateFromPage, {})
+      navigateToPage(m.top, "", {})
+      handled = true
+    else if (key = "OK")
+      navigateToPage(m.top, "PodcastPlayerPage", { episodeTitle: m.title.text })
       handled = true
     end if
   end if

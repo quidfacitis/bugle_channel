@@ -1,0 +1,13 @@
+<component name="PodcastPlayerPage" extends="BaseControl">
+	<script type="text/brightscript" uri="./PodcastPlayerPage.brs"/>
+  <interface>
+      <field id="pageParams" type="assocArray" value="{}" onChange="onPageParamsChange" />
+  </interface>
+  <children>
+    <Label
+      id="dummyLabel"
+      translation="[300, 300]"
+      width="700"
+      font="font:LargeBoldSystemFont"/>
+  </children>
+</component>
