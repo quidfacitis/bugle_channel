@@ -27,7 +27,13 @@ sub getPodcastEpisodes()
       episodeData = {}
       episodeDataItems = item.getChildElements()
       for each episodeDatum in episodeDataItems
-        episodeData[episodeDatum.getName()] = episodeDatum.getText()
+        datumKey = episodeDatum.getName()
+        'podcast url is stored in attribute on "enclosure" tag
+        if datumKey = "enclosure"
+          episodeData[datumKey] = episodeDatum.getAttributes()["url"]
+        else
+          episodeData[datumKey] = episodeDatum.getText()
+        end if
       end for
       labelListItem = content.createChild("ContentNode")
       labelListItem.title = episodeData.title

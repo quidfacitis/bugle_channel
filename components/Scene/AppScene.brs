@@ -9,6 +9,7 @@ sub onCurrentPageChange(msg as object)
 
   'TODO - CHECK IF PAGE NAME MACHES LIST OF EXISTING PAGE NAMES
 
+  'if pageName is an empty string, navigate back
   if pageName = ""
     m.pageContainer.removeChildIndex(0)
     newChildAtZero = m.pageContainer.getChild(0)
