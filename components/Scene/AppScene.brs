@@ -28,6 +28,7 @@ sub onCurrentPageChange(msg as object)
     end if
 
     m.pageContainer.insertChild(newPage, 0)
+    newPage.setFocus(true)
 
     childAtOne = m.pageContainer.getChild(1)
     if childAtOne <> invalid

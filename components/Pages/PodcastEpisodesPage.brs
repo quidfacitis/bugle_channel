@@ -73,7 +73,10 @@ function onKeyEvent(key as string, press as boolean) as boolean
       navigateToPage(m.top, "", {})
       handled = true
     else if (key = "OK")
-      navigateToPage(m.top, "PodcastPlayerPage", { episodeTitle: m.title.text })
+      navigateToPage(m.top, "PodcastPlayerPage", {
+        episodeTitle: m.title.text,
+        episodeMetadata: m.episodeMetadata[m.focusedIndex]
+      })
       handled = true
     end if
   end if

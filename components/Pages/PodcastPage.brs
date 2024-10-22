@@ -1,5 +1,4 @@
 sub init()
-  m.top.setFocus(true)
   m.top.id = "podcastPage"
   m.podcastPagePosterGrid = m.top.findNode("podcastPagePosterGrid")
   fireGetPodcastsTask()
