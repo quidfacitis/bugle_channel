@@ -3,6 +3,7 @@ sub init()
   m.dummyLabel = m.top.findNode("dummyLabel")
   m.progressBarContainer = m.top.findNode("progressBarContainer")
   m.currentSpot = m.top.findNode("currentSpot")
+  m.endTime = m.top.findNode("endTime")
   assignProgressBarTranslation()
 end sub
 
@@ -23,6 +24,7 @@ sub onPageParamsChange(msg as object)
 
   if pageParams.episodeMetadata <> invalid
     createAudioNode(pageParams.episodeMetadata.enclosure)
+    assignEndTime(pageParams.episodeMetadata["itunes:duration"])
   end if
 end sub
 
@@ -38,6 +40,10 @@ sub createAudioNode(podcastUrl as string)
   m.audio.observeField("state", "onAudioStateChange")
 
   ' m.audio.control = "play"
+end sub
+
+sub assignEndTime(duration)
+  m.endTime.text = duration
 end sub
 
 sub onAudioStateChange(msg as object)
