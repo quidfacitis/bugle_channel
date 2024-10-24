@@ -2,9 +2,12 @@ sub init()
   m.top.id = "podcastPlayerPage"
   m.dummyLabel = m.top.findNode("dummyLabel")
   m.progressBarContainer = m.top.findNode("progressBarContainer")
+  m.progressBar = m.top.findNode("progressBar")
   m.currentSpot = m.top.findNode("currentSpot")
+  m.startTime = m.top.findNode("startTime")
   m.endTime = m.top.findNode("endTime")
   assignProgressBarTranslation()
+  m.elapsedSeconds = 0
 end sub
 
 
@@ -25,8 +28,41 @@ sub onPageParamsChange(msg as object)
   if pageParams.episodeMetadata <> invalid
     createAudioNode(pageParams.episodeMetadata.enclosure)
     assignEndTime(pageParams.episodeMetadata["itunes:duration"])
+    totalSeconds = convertDurationToSeconds(pageParams.episodeMetadata["itunes:duration"])
+    m.pixelsPerSecond = getPixelsPerSecond(totalSeconds)
   end if
 end sub
+
+function convertDurationToSeconds(duration as string) as integer
+  splitDuration = duration.split(":")
+  return splitDuration[0].toInt() * 60 + splitDuration[1].toInt()
+end function
+
+function convertSecondsToDuration(seconds as integer) as string
+  minutes = int(seconds / 60)
+  secs = seconds mod 60
+
+  if minutes = 0
+    minutes = minutes.toStr() + "0"
+  else if minutes.toStr().len() = 1
+    minutes = "0" + minutes.toStr()
+  else
+    minutes = minutes.toStr()
+  end if
+
+  if secs = 0
+    secs = secs.toStr() + "0"
+  else
+    secs = secs.toStr()
+  end if
+
+  return minutes + ":" + secs
+end function
+
+function getPixelsPerSecond(totalSeconds as integer) as float
+  return m.progressBar.width / totalSeconds
+end function
+
 
 sub createAudioNode(podcastUrl as string)
   m.audio = createObject("roSGNode", "audio")
@@ -70,13 +106,18 @@ sub updateCurrentSpot(direction as string)
   x = translation[0]
   y = translation[1]
 
+  xAxisChange = int(m.pixelsPerSecond * 15)
 
-  'TO DO - GET LEFT AND RIGHT PRESSES TO MOVE THE EQUIVALENT OF 15 SECONDS
   if direction = "right"
-    m.currentSpot.translation = [(x + 10), y]
+    m.currentSpot.translation = [(x + xAxisChange), y]
+    m.elapsedSeconds = m.elapsedSeconds + 15
+
   else if direction = "left"
-    m.currentSpot.translation = [(x - 10), y]
+    m.currentSpot.translation = [(x - xAxisChange), y]
+    m.elapsedSeconds = m.elapsedSeconds - 15
   end if
+
+  m.startTime.text = convertSecondsToDuration(m.elapsedSeconds)
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
