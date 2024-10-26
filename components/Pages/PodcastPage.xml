@@ -6,10 +6,10 @@
   <children>
 		<PosterGrid
 			id="podcastPagePosterGrid"
-			translation="[300, 300]"
-			basePosterSize="[700, 700]"
-			numRows="1"
-			numColumns="2"
-			itemSpacing="[100, 0]" />
+			translation="[185, 25]"
+			basePosterSize="[500, 500]"
+			numRows="2"
+			numColumns="3"
+			itemSpacing="[25, 25]" />
   </children>
 </component>

@@ -16,6 +16,26 @@ function getPodcastList()
       "feed": "https://feeds.acast.com/public/shows/the-gargle",
       "img": "pkg:/images/the_gargle_podcast_hd.png"
     },
+    {
+      "name": "Richie Firth: Travel Hacker",
+      "feed": "https://feeds.acast.com/public/shows/64189cb7202f500011b4df34",
+      "img": "pkg:/images/richie_firth_hd.png"
+    },
+    {
+      "name": "The Bugle Ashes ZaltzCast",
+      "feed": "https://feeds.acast.com/public/shows/ashes-urncast",
+      "img": "pkg:/images/ashes_zaltzcast_hd.png"
+    },
+    {
+      "name": "Catharsis",
+      "feed": "https://feeds.acast.com/public/shows/e4240292-b2c6-5495-aef0-a1004417762b",
+      "img": "pkg:/images/catharsis_hd.png"
+    },
+    {
+      "name": "The Last Post",
+      "feed": "https://feeds.acast.com/public/shows/thelastpost",
+      "img": "pkg:/images/the_last_post_hd.png"
+    }
   ]
 end function
 

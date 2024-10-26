@@ -13,9 +13,18 @@ sub getPodcasts()
     podcastPoster = content.createChild("ContentNode")
     'Place podcast name on 'id' field to use when redirecting to podcastEpisodes page
     podcastPoster.id = podcast.name
+    ?podcast.img
     podcastPoster.hdGridPosterUrl = podcast.img
-    podcastPoster.x = index
-    podcastPoster.y = 0
+
+    'make 2 rows of 3 podcasts
+    if index < 3
+      podcastPoster.x = index
+      podcastPoster.y = 0
+    else
+      podcastPoster.x = index - 3
+      podcastPoster.y = 1
+    end if
+
     index = index + 1
   end for
   m.top.feedUrls = feedUrls
