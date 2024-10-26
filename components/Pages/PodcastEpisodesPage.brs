@@ -5,12 +5,11 @@ sub init()
   m.episodeList.observeField("itemFocused", "onItemFocusedChange")
   m.episodeList.translation = [960, 100]
 
+  m.podcastImg = m.top.findNode("podcastImg")
   m.title = m.top.findNode("title")
   m.subtitle = m.top.findNode("subtitle")
   m.pubDate = m.top.findNode("pubDate")
   m.duration = m.top.findNode("duration")
-  m.description = m.top.findNode("description")
-
   m.focusedIndex = invalid
 
   m.pageParams = m.top.pageParams
@@ -19,6 +18,7 @@ end sub
 sub onPageParamsChange(msg as object)
   pageParams = msg.getData()
   m.pageParams = pageParams
+  m.podcastImg.uri = m.pageParams.podcastImg
   fireGetPodcastEpisodesTask()
 end sub
 
@@ -57,7 +57,6 @@ sub setText(metadata)
   end if
   m.pubDate.text = shortenPubDate(metaData.pubDate)
   m.duration.text = "Duration: " + metaData["itunes:duration"]
-  m.description.text = stripOutHtmlTags(metaData.description)
 end sub
 
 function shortenPubDate(pubDate) as string

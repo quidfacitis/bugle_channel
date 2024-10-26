@@ -23,7 +23,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
       focusedPoster = m.podcastPagePosterGrid.content.getChild(focusedIndex)
       navigateToPage(m.top, "PodcastEpisodesPage", {
         podcastName: focusedPoster.id,
-        feedUrl: m.feedUrls[focusedIndex]
+        feedUrl: m.feedUrls[focusedIndex],
+        podcastImg: focusedPoster.hdGridPosterUrl
       })
       handled = true
     end if

@@ -9,6 +9,16 @@
       translation="[75, 100]"
       itemSpacings="[50, 50, 50]"
       >
+      <Rectangle
+        width="800"
+      >
+        <Poster
+          id="podcastImg"
+          width="500"
+          height="500"
+          translation="[150, 0]"
+        />
+      </Rectangle>
       <Label
         id="title"
         width="800"
@@ -19,7 +29,6 @@
         id="subtitle"
         width="800"
         wrap = "true"
-
         />
       <LayoutGroup
         layoutDirection="horiz"
@@ -33,12 +42,12 @@
           width="300"
           />
       </LayoutGroup>
-      <Label
+      <!-- <Label
         id="description"
 				width = "800"
 				wrap = "true"
         font="font:SmallestSystemFont"
-				ellipsizeOnBoundary = "true" />
+				ellipsizeOnBoundary = "true" /> -->
     </LayoutGroup>
     <LabelList
       id="episodeList"
