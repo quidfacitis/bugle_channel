@@ -7,7 +7,10 @@ sub init()
   m.startTime = m.top.findNode("startTime")
   m.endTime = m.top.findNode("endTime")
   assignProgressBarTranslation()
+  setUpAudioTimer()
   m.elapsedSeconds = 0
+  m.ffRwInterval = 15
+  m.pendingPixelsToMove = 0
 end sub
 
 
@@ -17,7 +20,9 @@ sub assignProgressBarTranslation()
   yTranslation = 800
   m.progressBarContainer.translation = [xTranslation, yTranslation]
   'assign initial translation of current spot marker
-  m.currentSpot.translation = [(xTranslation + 120), (yTranslation - 15)]
+  m.progBarLeftTranslationLimit = xTranslation + 120
+  m.progBarRightTranslationLimit = m.progBarLeftTranslationLimit + 1000
+  m.currentSpot.translation = [m.progBarLeftTranslationLimit, (yTranslation - 15)]
 end sub
 
 sub onPageParamsChange(msg as object)
@@ -28,8 +33,8 @@ sub onPageParamsChange(msg as object)
   if pageParams.episodeMetadata <> invalid
     createAudioNode(pageParams.episodeMetadata.enclosure)
     assignEndTime(pageParams.episodeMetadata["itunes:duration"])
-    totalSeconds = convertDurationToSeconds(pageParams.episodeMetadata["itunes:duration"])
-    m.pixelsPerSecond = getPixelsPerSecond(totalSeconds)
+    m.totalSeconds = convertDurationToSeconds(pageParams.episodeMetadata["itunes:duration"])
+    m.pixelsPerSecond = getPixelsPerSecond(m.totalSeconds)
   end if
 end sub
 
@@ -52,6 +57,8 @@ function convertSecondsToDuration(seconds as integer) as string
 
   if secs = 0
     secs = secs.toStr() + "0"
+  else if secs.toStr().len() = 1
+    secs = "0" + secs.toStr()
   else
     secs = secs.toStr()
   end if
@@ -64,8 +71,19 @@ function getPixelsPerSecond(totalSeconds as integer) as float
 end function
 
 
+sub setUpAudioTimer()
+  m.audioTimer = CreateObject("roSGNode", "Timer")
+  m.audioTimer.duration = 1
+  m.audioTimer.repeat = true
+  m.audioTimer.observeField("fire", "updateCurrentSpot")
+end sub
+
+
 sub createAudioNode(podcastUrl as string)
   m.audio = createObject("roSGNode", "audio")
+  ' m.audio.notificationInterval = 0.1
+  ' m.audio.observeField("position", "onAudioPositionChange")
+
   audioContent = createObject("roSGNode", "ContentNode")
   audioContent.url = podcastUrl
   audioContent.contentType = "audio"
@@ -82,18 +100,35 @@ sub assignEndTime(duration)
   m.endTime.text = duration
 end sub
 
+' sub onAudioPositionChange(msg as object)
+'   position = msg.getData()
+'   ?"***POSITION: "position
+
+
+'   updateCurrentSpot("right", 1)
+'   'update currentSpot marker by m.pixelsPerSecond
+' end sub
+
 sub onAudioStateChange(msg as object)
   state = msg.getData()
+  if state = "playing"
+    m.audioTimer.control = "start"
+  else
+    m.audioTimer.control = "stop"
+  end if
   ?"STATE CHANGE: "state
+  ?"X TRANSLATION: "m.currentSpot.translation[0]
+  ?"ELAPSED SECONDS: "m.elapsedSeconds
 end sub
 
 sub playPauseAudio()
   if m.audio.state = "none"
+    m.audio.seek = m.elapsedSeconds
     m.audio.control = "play"
   else if m.audio.state = "playing"
     m.audio.control = "pause"
   else if m.audio.state = "paused"
-    m.audio.control = "resume"
+    m.audio.seek = m.elapsedSeconds
   else if m.audio.state = "finished"
     'navigate back to podcastEpisodesPage
     navigateToPage(m.top, "", {})
@@ -101,23 +136,54 @@ sub playPauseAudio()
 
 end sub
 
-sub updateCurrentSpot(direction as string)
+sub updateCurrentSpot(direction = "right" as string, interval = 1 as integer)
   translation = m.currentSpot.translation
   x = translation[0]
   y = translation[1]
 
-  xAxisChange = int(m.pixelsPerSecond * 15)
+
+  ' pixelsToMove = m.pixelsPerSecond * interval
+
+  ' if pixelsToMove + m.pendingPixelsToMove < 1
+  '   m.pendingPixelsToMove = m.pendingPixelsToMove + pixelsToMove
+  '   return
+  ' else
+  '   xAxisChange = int(pixelsToMove + m.pendingPixelsToMove)
+  ' end if
+
+  xAxisChange = m.pixelsPerSecond * interval
 
   if direction = "right"
-    m.currentSpot.translation = [(x + xAxisChange), y]
-    m.elapsedSeconds = m.elapsedSeconds + 15
-
+    change = x + xAxisChange
+    ?"***CHANGE: "change
+    if change > m.progBarRightTranslationLimit
+      change = m.progBarRightTranslationLimit
+      m.elapsedSeconds = m.totalSeconds
+    else
+      m.elapsedSeconds = m.elapsedSeconds + interval
+    end if
+    m.currentSpot.translation = [change, y]
   else if direction = "left"
-    m.currentSpot.translation = [(x - xAxisChange), y]
-    m.elapsedSeconds = m.elapsedSeconds - 15
+    change = x - xAxisChange
+    if change < m.progBarLeftTranslationLimit
+      change = m.progBarLeftTranslationLimit
+      m.elapsedSeconds = 0
+    else
+      m.elapsedSeconds = m.elapsedSeconds - interval
+    end if
+    m.currentSpot.translation = [change, y]
   end if
 
+  ?"CURRENT POSITION: "m.elapsedSeconds
   m.startTime.text = convertSecondsToDuration(m.elapsedSeconds)
+  'only seek new time if interval is FF or RW
+  if interval > 1 then seekToNewTime(m.elapsedSeconds)
+end sub
+
+sub seekToNewTime(newTime)
+  if m.audio.state = "playing"
+    m.audio.seek = newTime
+  end if
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
@@ -132,9 +198,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
       navigateToPage(m.top, "", {})
       handled = true
     else if (key = "right")
-      updateCurrentSpot(key)
+      updateCurrentSpot(key, m.ffRwInterval)
     else if (key = "left")
-      updateCurrentSpot(key)
+      updateCurrentSpot(key, m.ffRwInterval)
     end if
   end if
   return handled
