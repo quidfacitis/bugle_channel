@@ -11,6 +11,7 @@ sub init()
   m.elapsedSeconds = 0
   m.ffRwInterval = 15
   m.pendingPixelsToMove = 0
+  m.FfOrRwOccurred = false
 end sub
 
 
@@ -78,36 +79,23 @@ sub setUpAudioTimer()
   m.audioTimer.observeField("fire", "updateCurrentSpot")
 end sub
 
-
 sub createAudioNode(podcastUrl as string)
   m.audio = createObject("roSGNode", "audio")
-  ' m.audio.notificationInterval = 0.1
-  ' m.audio.observeField("position", "onAudioPositionChange")
-
   audioContent = createObject("roSGNode", "ContentNode")
   audioContent.url = podcastUrl
   audioContent.contentType = "audio"
   audioContent.streamFormat = "mp3"
   m.audio.content = audioContent
 
-  'for testing
   m.audio.observeField("state", "onAudioStateChange")
 
+  ' m.audio.seek = m.elapsedSeconds
   ' m.audio.control = "play"
 end sub
 
 sub assignEndTime(duration)
   m.endTime.text = duration
 end sub
-
-' sub onAudioPositionChange(msg as object)
-'   position = msg.getData()
-'   ?"***POSITION: "position
-
-
-'   updateCurrentSpot("right", 1)
-'   'update currentSpot marker by m.pixelsPerSecond
-' end sub
 
 sub onAudioStateChange(msg as object)
   state = msg.getData()
@@ -117,8 +105,6 @@ sub onAudioStateChange(msg as object)
     m.audioTimer.control = "stop"
   end if
   ?"STATE CHANGE: "state
-  ?"X TRANSLATION: "m.currentSpot.translation[0]
-  ?"ELAPSED SECONDS: "m.elapsedSeconds
 end sub
 
 sub playPauseAudio()
@@ -128,7 +114,12 @@ sub playPauseAudio()
   else if m.audio.state = "playing"
     m.audio.control = "pause"
   else if m.audio.state = "paused"
-    m.audio.seek = m.elapsedSeconds
+    if m.FfOrRwOccurred
+      m.audio.seek = m.elapsedSeconds
+      m.FfOrRwOccurred = false
+    else
+      m.audio.control = "resume"
+    end if
   else if m.audio.state = "finished"
     'navigate back to podcastEpisodesPage
     navigateToPage(m.top, "", {})
@@ -140,16 +131,6 @@ sub updateCurrentSpot(direction = "right" as string, interval = 1 as integer)
   translation = m.currentSpot.translation
   x = translation[0]
   y = translation[1]
-
-
-  ' pixelsToMove = m.pixelsPerSecond * interval
-
-  ' if pixelsToMove + m.pendingPixelsToMove < 1
-  '   m.pendingPixelsToMove = m.pendingPixelsToMove + pixelsToMove
-  '   return
-  ' else
-  '   xAxisChange = int(pixelsToMove + m.pendingPixelsToMove)
-  ' end if
 
   xAxisChange = m.pixelsPerSecond * interval
 
@@ -183,6 +164,8 @@ end sub
 sub seekToNewTime(newTime)
   if m.audio.state = "playing"
     m.audio.seek = newTime
+  else
+
   end if
 end sub
 
