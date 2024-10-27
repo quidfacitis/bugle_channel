@@ -4,14 +4,14 @@ sub init()
   m.episodeList.setFocus(true)
   m.episodeList.observeField("itemFocused", "onItemFocusedChange")
   m.episodeList.translation = [960, 100]
-
+  m.pubDateAndDurationContainer = m.top.findNode("pubDateAndDurationContainer")
   m.podcastImg = m.top.findNode("podcastImg")
   m.title = m.top.findNode("title")
+  m.subtitleDivider = m.top.findNode("subtitleDivider")
   m.subtitle = m.top.findNode("subtitle")
   m.pubDate = m.top.findNode("pubDate")
   m.duration = m.top.findNode("duration")
   m.focusedIndex = invalid
-
   m.pageParams = m.top.pageParams
 end sub
 
@@ -32,6 +32,7 @@ end sub
 
 sub placeContentOnLabelList()
   m.episodeList.content = m.getPodcastEpisodesTask.content
+  m.podcastImg.visible = true
 end sub
 
 sub onEpisodeMetadataChange(msg as object)
@@ -50,13 +51,22 @@ end sub
 
 sub setText(metadata)
   m.title.text = metaData.title
-  if metaData["itunes:subtitle"] <> invalid
+  if metaData["itunes:subtitle"] <> invalid and metaData["itunes:subtitle"] <> ""
     m.subtitle.text = metaData["itunes:subtitle"]
+    m.subtitle.visible = true
+    m.subtitleDivider.visible = true
   else
-    m.subtitle.text = "A classic episode from " + m.pageParams.podcastName
+    m.subtitle.text = ""
+    m.subtitle.visible = false
+    m.subtitleDivider.visible = false
   end if
   m.pubDate.text = shortenPubDate(metaData.pubDate)
   m.duration.text = "Duration: " + metaData["itunes:duration"]
+
+  pubDateAndDurationBoundingRect = m.pubDateAndDurationContainer.boundingRect()
+  xTranslation = (800 - pubDateAndDurationBoundingRect.width) / 2
+  m.pubDateAndDurationContainer.translation = [xTranslation, 0]
+  m.pubDateAndDurationContainer.visible = true
 end sub
 
 function shortenPubDate(pubDate) as string

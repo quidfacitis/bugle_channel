@@ -7,7 +7,7 @@
   <children>
     <LayoutGroup
       translation="[75, 100]"
-      itemSpacings="[50, 50, 50]"
+      itemSpacings="[30, 30, 30, 30]"
       >
       <Rectangle
         width="800"
@@ -17,37 +17,54 @@
           width="500"
           height="500"
           translation="[150, 0]"
+          visible="false"
         />
       </Rectangle>
-      <Label
-        id="title"
+      <Rectangle
         width="800"
-        font="font:LargeBoldSystemFont"
-        wrap = "true"
+      >
+        <Label
+          width="800"
+          id="title"
+          font="font:LargeBoldSystemFont"
+          wrap="true"
+          horizAlign="center"
         />
+      </Rectangle>
+      <Rectangle
+        width="800"
+      >
+        <LayoutGroup
+          id="pubDateAndDurationContainer"
+          layoutDirection="horiz"
+          itemSpacings="[20, 20]"
+          visible="false">
+          <Label
+            id="pubDate"
+            font="font:SmallSystemFont"
+            />
+          <Label text="•" />
+          <Label
+            id="duration"
+            font="font:SmallSystemFont"
+            />
+        </LayoutGroup>
+      </Rectangle>
+      <Rectangle
+        id="subtitleDivider"
+        width="800"
+        height="3"
+        color="0xFFFFFFFF"
+        visible="false"
+      />
       <Label
         id="subtitle"
         width="800"
-        wrap = "true"
-        />
-      <LayoutGroup
-        layoutDirection="horiz"
-        itemSpacings="[30]">
-        <Label
-          id="pubDate"
-          width="300"
-          />
-        <Label
-          id="duration"
-          width="300"
-          />
-      </LayoutGroup>
-      <!-- <Label
-        id="description"
-				width = "800"
-				wrap = "true"
+        wrap="true"
+        visible="false"
         font="font:SmallestSystemFont"
-				ellipsizeOnBoundary = "true" /> -->
+        ellipsizeOnBoundary="false"
+      />
     </LayoutGroup>
     <LabelList
       id="episodeList"
