@@ -28,9 +28,12 @@ sub getPodcastEpisodes()
       episodeDataItems = item.getChildElements()
       for each episodeDatum in episodeDataItems
         datumKey = episodeDatum.getName()
-        'podcast url is stored in attribute on "enclosure" tag
         if datumKey = "enclosure"
+          'podcast episode url is stored in "url" attribute on "enclosure" tag
           episodeData[datumKey] = episodeDatum.getAttributes()["url"]
+        else if datumKey = "itunes:image"
+          'podcast episode image is stored in "href" attribute on "itunes:image" tag
+          episodeData[datumKey] = episodeDatum.getAttributes()["href"]
         else
           episodeData[datumKey] = episodeDatum.getText()
         end if

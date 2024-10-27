@@ -84,7 +84,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if (key = "OK")
       navigateToPage(m.top, "PodcastPlayerPage", {
         episodeTitle: m.title.text,
-        episodeMetadata: m.episodeMetadata[m.focusedIndex]
+        episodeMetadata: m.episodeMetadata[m.focusedIndex],
+        defaultPodcastImg: m.pageParams.podcastImg
       })
       handled = true
     end if

@@ -4,11 +4,30 @@
       <field id="pageParams" type="assocArray" value="{}" onChange="onPageParamsChange" />
   </interface>
   <children>
-    <Label
-      id="dummyLabel"
-      translation="[300, 300]"
-      width="700"
-      font="font:LargeBoldSystemFont"/>
+    <LayoutGroup
+      translation="[460, 100]"
+      itemSpacings="[30]">
+      <Rectangle
+        width="1000">
+        <Poster
+          id="podcastEpisodeArt"
+          loadWidth="500"
+          width="500"
+          loadHeight="500"
+          height="500"
+          loadDisplayMode="limitSize"
+          translation="[250, 0]" />
+      </Rectangle>
+      <Rectangle
+        width="1000">
+      <Label
+        id="title"
+        width="1000"
+        font="font:LargeBoldSystemFont"
+        horizAlign="center"
+        wrap="true" />
+      </Rectangle>
+    </LayoutGroup>
       <Rectangle
         id="currentSpot"
         height="30"

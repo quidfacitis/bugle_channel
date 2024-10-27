@@ -1,12 +1,13 @@
 sub init()
   m.top.id = "podcastPlayerPage"
-  m.dummyLabel = m.top.findNode("dummyLabel")
+  m.podcastEpisodeArt = m.top.findNode("podcastEpisodeArt")
+  m.title = m.top.findNode("title")
   m.progressBarContainer = m.top.findNode("progressBarContainer")
   m.progressBar = m.top.findNode("progressBar")
   m.currentSpot = m.top.findNode("currentSpot")
   m.startTime = m.top.findNode("startTime")
   m.endTime = m.top.findNode("endTime")
-  assignProgressBarTranslation()
+  assignProgressBarContainerTranslation()
   setUpAudioTimer()
   m.elapsedSeconds = 0
   m.ffRwInterval = 15
@@ -14,8 +15,7 @@ sub init()
   m.FfOrRwOccurred = false
 end sub
 
-
-sub assignProgressBarTranslation()
+sub assignProgressBarContainerTranslation()
   boundingRect = m.progressBarContainer.boundingRect()
   xTranslation = (1920 - boundingRect.width) / 2
   yTranslation = 800
@@ -29,13 +29,18 @@ end sub
 sub onPageParamsChange(msg as object)
   pageParams = msg.getData()
   m.pageParams = pageParams
-  m.dummyLabel.text = pageParams.episodeTitle
+  m.title.text = pageParams.episodeTitle
 
   if pageParams.episodeMetadata <> invalid
     createAudioNode(pageParams.episodeMetadata.enclosure)
     assignEndTime(pageParams.episodeMetadata["itunes:duration"])
     m.totalSeconds = convertDurationToSeconds(pageParams.episodeMetadata["itunes:duration"])
     m.pixelsPerSecond = getPixelsPerSecond(m.totalSeconds)
+    if pageParams.episodeMetadata["itunes:image"] <> invalid and pageParams.episodeMetadata["itunes:image"] <> ""
+      m.podcastEpisodeArt.uri = pageParams.episodeMetadata["itunes:image"]
+    else
+      m.podcastEpisodeArt.uri = pageParams.defaultPodcastImg
+    end if
   end if
 end sub
 
