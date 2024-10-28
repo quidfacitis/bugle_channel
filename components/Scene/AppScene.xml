@@ -7,7 +7,6 @@
 		<field id="currentPageParams" type="assocArray" value="{}" onChange="onCurrentPageParamsChange" />
 	</interface>
 	<children>
-		<!-- <PodcastPage /> -->
 		<PageContainer id="pageContainer" />
 	</children>
 </component>

@@ -1,9 +1,13 @@
 sub init()
   m.top.id = "podcastEpisodesPage"
+  m.andySpinner = m.top.findNode("andySpinner")
+  setUpSpinner(m.andySpinner)
+
   m.episodeList = m.top.findNode("episodeList")
   m.episodeList.setFocus(true)
   m.episodeList.observeField("itemFocused", "onItemFocusedChange")
   m.episodeList.translation = [960, 100]
+
   m.pubDateAndDurationContainer = m.top.findNode("pubDateAndDurationContainer")
   m.podcastImg = m.top.findNode("podcastImg")
   m.title = m.top.findNode("title")
@@ -11,6 +15,7 @@ sub init()
   m.subtitle = m.top.findNode("subtitle")
   m.pubDate = m.top.findNode("pubDate")
   m.duration = m.top.findNode("duration")
+
   m.focusedIndex = invalid
   m.pageParams = m.top.pageParams
 end sub
@@ -32,6 +37,8 @@ end sub
 
 sub placeContentOnLabelList()
   m.episodeList.content = m.getPodcastEpisodesTask.content
+  m.andySpinner.visible = false
+  m.episodeList.visible = true
   m.podcastImg.visible = true
 end sub
 

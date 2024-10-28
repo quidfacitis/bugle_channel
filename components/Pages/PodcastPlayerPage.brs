@@ -1,5 +1,10 @@
 sub init()
   m.top.id = "podcastPlayerPage"
+
+  m.andySpinner = m.top.findNode("andySpinner")
+  setUpSpinner(m.andySpinner)
+
+  m.podcastArtAndTitleContainer = m.top.findNode("podcastArtAndTitleContainer")
   m.podcastEpisodeArt = m.top.findNode("podcastEpisodeArt")
   m.title = m.top.findNode("title")
   m.progressBarContainer = m.top.findNode("progressBarContainer")
@@ -7,8 +12,10 @@ sub init()
   m.currentSpot = m.top.findNode("currentSpot")
   m.startTime = m.top.findNode("startTime")
   m.endTime = m.top.findNode("endTime")
+
   assignProgressBarContainerTranslation()
   setUpAudioTimer()
+
   m.elapsedSeconds = 0
   m.ffRwInterval = 15
   m.pendingPixelsToMove = 0
@@ -94,8 +101,7 @@ sub createAudioNode(podcastUrl as string)
 
   m.audio.observeField("state", "onAudioStateChange")
 
-  ' m.audio.seek = m.elapsedSeconds
-  ' m.audio.control = "play"
+  m.audio.control = "play"
 end sub
 
 sub assignEndTime(duration)
@@ -106,6 +112,12 @@ sub onAudioStateChange(msg as object)
   state = msg.getData()
   if state = "playing"
     m.audioTimer.control = "start"
+    if m.andySpinner.visible
+      m.andySpinner.visible = false
+      m.podcastArtAndTitleContainer.visible = true
+      m.currentSpot.visible = true
+      m.progressBarContainer.visible = true
+    end if
   else
     m.audioTimer.control = "stop"
   end if
@@ -170,7 +182,7 @@ sub seekToNewTime(newTime)
   if m.audio.state = "playing"
     m.audio.seek = newTime
   else
-
+    m.FfOrRwOccurred = true
   end if
 end sub
 

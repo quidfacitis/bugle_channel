@@ -1,14 +1,14 @@
 sub init()
   m.top.id = "AppScene"
+  m.top.backgroundUri = ""
+  m.top.backgroundColor = "0x000000"
+
   m.pageContainer = m.top.findNode("pageContainer")
   m.currentPageParams = m.top.currentPageParams
 end sub
 
 sub onCurrentPageChange(msg as object)
   pageName = msg.getData()
-
-  'TODO - CHECK IF PAGE NAME MACHES LIST OF EXISTING PAGE NAMES
-
   'if pageName is an empty string, navigate back
   if pageName = ""
     m.pageContainer.removeChildIndex(0)

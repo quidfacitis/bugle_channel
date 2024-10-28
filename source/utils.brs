@@ -52,3 +52,21 @@ function navigateToPage(node as dynamic, pageName as string, params = {}) as boo
     return false
   end if
 end function
+
+sub setUpSpinner(spinnerNode)
+  m.spinnerNode = spinnerNode
+  m.spinnerNode.poster.uri = "pkg:/images/andy_hair.png"
+  m.spinnerNode.poster.width = 300
+  m.spinnerNode.poster.height = 300
+  m.spinnerNode.poster.observeField("loadStatus", "assignSpinnerTranslation")
+end sub
+
+sub assignSpinnerTranslation(msg as object)
+  loadStatus = msg.getData()
+  if loadStatus = "ready"
+    boundingRect = m.andySpinner.boundingRect()
+    xTranslation = (1920 - boundingRect.width) / 2
+    yTranslation = (1080 - boundingRect.height) / 2
+    m.spinnerNode.translation = [xTranslation, yTranslation]
+  end if
+end sub

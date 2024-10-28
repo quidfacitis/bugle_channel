@@ -71,6 +71,11 @@
       itemSize="[800,80]"
       numRows="10"
       wrapDividerHeight="20"
+      visible="false"
     />
+    <BusySpinner
+			id="andySpinner"
+			visible="true"
+		/>
   </children>
 </component>
