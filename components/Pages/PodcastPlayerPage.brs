@@ -4,16 +4,9 @@ sub init()
   m.andySpinner = m.top.findNode("andySpinner")
   setUpSpinner(m.andySpinner)
 
-
-  ' m.font = CreateObject("roSGNode", "Font")
-  ' m.font.uri = "pkg:/fonts/sosa-regular-webfont.ttf"
-  ' m.font.size = 24
-
   m.podcastArtAndTitleContainer = m.top.findNode("podcastArtAndTitleContainer")
   m.podcastEpisodeArt = m.top.findNode("podcastEpisodeArt")
   m.title = m.top.findNode("title")
-
-  ' m.title.font = m.font
 
   m.progressBarContainer = m.top.findNode("progressBarContainer")
   m.progressBar = m.top.findNode("progressBar")
@@ -21,10 +14,6 @@ sub init()
   m.startTime = m.top.findNode("startTime")
   m.endTime = m.top.findNode("endTime")
   m.playPauseButton = m.top.findNode("playPauseButton")
-
-
-
-  ' m.playPauseButton.font = m.font
 
   assignProgressBarContainerTranslation()
   setUpAudioTimer()
@@ -123,24 +112,31 @@ end sub
 
 sub onAudioStateChange(msg as object)
   state = msg.getData()
-  if state = "playing"
 
+  ?"STATE CHANGE: "state
+  '9654 = play triangle
+  '9646 = pause rectangle
+  if state = "playing"
     m.audioTimer.control = "start"
-    ' m.playPauseButton.text = Chr(9654)
     m.playPauseButton.text = Chr(9646) + Chr(9646)
-    '9654 = play
-    '9646 x2 = pause
-    '
     if m.andySpinner.visible
       m.andySpinner.visible = false
       m.podcastArtAndTitleContainer.visible = true
       m.currentSpot.visible = true
       m.progressBarContainer.visible = true
     end if
+    return
+  else if state = "finished"
+    m.audioTimer.control = "stop"
+    if m.elapsedSeconds < m.totalSeconds
+      updateCurrentSpot("right")
+    else
+      fireNavigateBackTimer()
+    end if
   else
+    m.playPauseButton.text = Chr(9654)
     m.audioTimer.control = "stop"
   end if
-  ?"STATE CHANGE: "state
 end sub
 
 sub playPauseAudio()
@@ -156,11 +152,7 @@ sub playPauseAudio()
     else
       m.audio.control = "resume"
     end if
-  else if m.audio.state = "finished"
-    'navigate back to podcastEpisodesPage
-    navigateToPage(m.top, "", {})
   end if
-
 end sub
 
 sub updateCurrentSpot(direction = "right" as string, interval = 1 as integer)
@@ -193,8 +185,26 @@ sub updateCurrentSpot(direction = "right" as string, interval = 1 as integer)
 
   ?"CURRENT POSITION: "m.elapsedSeconds
   m.startTime.text = convertSecondsToDuration(m.elapsedSeconds)
+
+  if m.elapsedSeconds >= m.totalSeconds and m.audio.state = "playing"
+    fireNavigateBackTimer()
+  end if
+
   'only seek new time if interval is FF or RW
   if interval > 1 then seekToNewTime(m.elapsedSeconds)
+end sub
+
+sub fireNavigateBackTimer()
+  m.navigateBackTimer = CreateObject("roSGNode", "Timer")
+  m.navigateBackTimer.duration = 1
+  m.navigateBackTimer.repeat = true
+  m.navigateBackTimer.observeField("fire", "navigateBackAfterWaiting")
+  m.navigateBackTimer.control = "start"
+end sub
+
+sub navigateBackAfterWaiting()
+  m.navigateBackTimer.control = "stop"
+  navigateToPage(m.top, "", {})
 end sub
 
 sub seekToNewTime(newTime)
