@@ -4,6 +4,11 @@ function stripOutHtmlTags(baseStr as string) as string
   return r.replaceAll(baseStr, "")
 end function
 
+function replaceHtmlEntities(baseStr as string) as string
+  r = createObject("roRegex", "&nbsp;", "i")
+  return r.replaceAll(baseStr, " ")
+end function
+
 function getPodcastList()
   return [
     {

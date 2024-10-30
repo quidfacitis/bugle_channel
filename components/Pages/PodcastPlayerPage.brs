@@ -4,14 +4,27 @@ sub init()
   m.andySpinner = m.top.findNode("andySpinner")
   setUpSpinner(m.andySpinner)
 
+
+  ' m.font = CreateObject("roSGNode", "Font")
+  ' m.font.uri = "pkg:/fonts/sosa-regular-webfont.ttf"
+  ' m.font.size = 24
+
   m.podcastArtAndTitleContainer = m.top.findNode("podcastArtAndTitleContainer")
   m.podcastEpisodeArt = m.top.findNode("podcastEpisodeArt")
   m.title = m.top.findNode("title")
+
+  ' m.title.font = m.font
+
   m.progressBarContainer = m.top.findNode("progressBarContainer")
   m.progressBar = m.top.findNode("progressBar")
   m.currentSpot = m.top.findNode("currentSpot")
   m.startTime = m.top.findNode("startTime")
   m.endTime = m.top.findNode("endTime")
+  m.playPauseButton = m.top.findNode("playPauseButton")
+
+
+
+  ' m.playPauseButton.font = m.font
 
   assignProgressBarContainerTranslation()
   setUpAudioTimer()
@@ -111,7 +124,13 @@ end sub
 sub onAudioStateChange(msg as object)
   state = msg.getData()
   if state = "playing"
+
     m.audioTimer.control = "start"
+    ' m.playPauseButton.text = Chr(9654)
+    m.playPauseButton.text = Chr(9646) + Chr(9646)
+    '9654 = play
+    '9646 x2 = pause
+    '
     if m.andySpinner.visible
       m.andySpinner.visible = false
       m.podcastArtAndTitleContainer.visible = true

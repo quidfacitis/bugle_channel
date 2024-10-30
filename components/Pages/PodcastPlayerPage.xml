@@ -22,48 +22,57 @@
       </Rectangle>
       <Rectangle
         width="1000">
-      <Label
-        id="title"
-        width="1000"
-        font="font:LargeBoldSystemFont"
-        horizAlign="center"
-        wrap="true" />
+        <Label
+          id="title"
+          width="1000"
+          horizAlign="center"
+          wrap="true"
+          font="font:LargeBoldSystemFont"
+        >
+        </Label>
       </Rectangle>
     </LayoutGroup>
-      <Rectangle
-        id="currentSpot"
-        height="30"
-        width="3"
-        color="0xFFFFFFFF"
-        visible="false"
+    <Rectangle
+      id="currentSpot"
+      height="30"
+      width="3"
+      color="0xFFFFFFFF"
+      visible="false"
+    />
+    <LayoutGroup
+      id="progressBarContainer"
+      itemSpacings="[20, 20]"
+      layoutDirection="horiz"
+      vertAlignment="center"
+      visible="false"
+      >
+      <Label
+        id="startTime"
+        width="100"
+        text="00:00"
       />
-      <LayoutGroup
-        id="progressBarContainer"
-        itemSpacings="[20, 20]"
-        layoutDirection="horiz"
-        vertAlignment="center"
-        visible="false"
-        >
-        <Label
-          id="startTime"
-          width="100"
-          text="00:00"
-        />
-        <Rectangle
-          id="progressBar"
-          height="5"
-          width="1000"
-          color="0xFFFFFFFF"
-        />
-        <Label
-          id="endTime"
-          width="100"
-          text="00:00"
-        />
-      </LayoutGroup>
-      <BusySpinner
-        id="andySpinner"
-        visible="true"
-		  />
+      <Rectangle
+        id="progressBar"
+        height="5"
+        width="1000"
+        color="0xFFFFFFFF"
+      />
+      <Label
+        id="endTime"
+        width="100"
+        text="00:00"
+      />
+    </LayoutGroup>
+    <Label
+      id="playPauseButton"
+      translation="[460, 900]"
+      color="0xFFFFFFFF"
+      >
+      <Font role="font" id="playPause" uri="pkg:/source/fonts/code2000.ttf" size="24" />
+    </Label>
+    <BusySpinner
+      id="andySpinner"
+      visible="true"
+    />
   </children>
 </component>

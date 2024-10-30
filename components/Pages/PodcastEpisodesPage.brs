@@ -59,7 +59,7 @@ end sub
 sub setText(metadata)
   m.title.text = metaData.title
   if metaData["itunes:subtitle"] <> invalid and metaData["itunes:subtitle"] <> ""
-    m.subtitle.text = metaData["itunes:subtitle"]
+    m.subtitle.text = replaceHtmlEntities(metaData["itunes:subtitle"])
     m.subtitle.visible = true
     m.subtitleDivider.visible = true
   else
