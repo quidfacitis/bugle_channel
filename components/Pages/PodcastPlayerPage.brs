@@ -42,9 +42,6 @@ sub onPageParamsChange(msg as object)
 
   if pageParams.episodeMetadata <> invalid
     createAudioNode(pageParams.episodeMetadata.enclosure)
-    assignEndTime(pageParams.episodeMetadata["itunes:duration"])
-    m.totalSeconds = convertDurationToSeconds(pageParams.episodeMetadata["itunes:duration"])
-    m.pixelsPerSecond = getPixelsPerSecond(m.totalSeconds)
     if pageParams.episodeMetadata["itunes:image"] <> invalid and pageParams.episodeMetadata["itunes:image"] <> ""
       m.podcastEpisodeArt.uri = pageParams.episodeMetadata["itunes:image"]
     else
@@ -102,12 +99,20 @@ sub createAudioNode(podcastUrl as string)
   m.audio.content = audioContent
 
   m.audio.observeField("state", "onAudioStateChange")
-
+  m.audio.observeField("duration", "onAudioDurationChange")
   m.audio.control = "play"
 end sub
 
 sub assignEndTime(duration)
   m.endTime.text = duration
+end sub
+
+sub onAudioDurationChange(msg as object)
+  totalSeconds = msg.getData()
+
+  assignEndTime(convertSecondsToDuration(totalSeconds))
+  m.totalSeconds = totalSeconds
+  m.pixelsPerSecond = getPixelsPerSecond(totalSeconds)
 end sub
 
 sub onAudioStateChange(msg as object)
