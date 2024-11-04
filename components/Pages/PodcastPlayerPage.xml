@@ -6,31 +6,27 @@
   <children>
     <LayoutGroup
       id="podcastArtAndTitleContainer"
-      translation="[460, 100]"
-      itemSpacings="[30]"
+      itemSpacings="[50]"
       visible="false">
       <Rectangle
-        width="1000">
+        width="1920">
         <Poster
           id="podcastEpisodeArt"
-          loadWidth="500"
-          width="500"
-          loadHeight="500"
-          height="500"
+          loadWidth="650"
+          width="650"
+          loadHeight="650"
+          height="650"
           loadDisplayMode="limitSize"
-          translation="[250, 0]" />
+          translation="[635, 75]" />
       </Rectangle>
-      <Rectangle
-        width="1000">
-        <Label
-          id="title"
-          width="1000"
-          horizAlign="center"
-          wrap="true"
-          font="font:LargeBoldSystemFont"
-        >
-        </Label>
-      </Rectangle>
+      <Label
+        id="title"
+        width="1920"
+        horizAlign="center"
+        wrap="true"
+        font="font:LargeBoldSystemFont"
+        maxLines="1"
+      />
     </LayoutGroup>
     <Rectangle
       id="currentSpot"
@@ -39,37 +35,44 @@
       color="0xFFFFFFFF"
       visible="false"
     />
+
     <LayoutGroup
-      id="progressBarContainer"
-      itemSpacings="[20, 20]"
-      layoutDirection="horiz"
-      vertAlignment="center"
+      id="playerContainer"
+      itemSpacings="[30]"
       visible="false"
       >
+      <LayoutGroup
+        id="progressBarContainer"
+        itemSpacings="[20, 20]"
+        layoutDirection="horiz"
+        vertAlignment="center"
+        >
+        <Label
+          id="startTime"
+          width="100"
+          text="00:00"
+        />
+        <Rectangle
+          id="progressBar"
+          height="5"
+          width="1000"
+          color="0xFFFFFFFF"
+        />
+        <Label
+          id="endTime"
+          width="100"
+          text="00:00"
+        />
+      </LayoutGroup>
       <Label
-        id="startTime"
-        width="100"
-        text="00:00"
-      />
-      <Rectangle
-        id="progressBar"
-        height="5"
-        width="1000"
+        width="1240"
+        horizAlign="center"
+        id="playPauseButton"
         color="0xFFFFFFFF"
-      />
-      <Label
-        id="endTime"
-        width="100"
-        text="00:00"
-      />
+        >
+        <Font role="font" id="playPause" uri="pkg:/source/fonts/code2000.ttf" size="36" />
+      </Label>
     </LayoutGroup>
-    <Label
-      id="playPauseButton"
-      translation="[460, 900]"
-      color="0xFFFFFFFF"
-      >
-      <Font role="font" id="playPause" uri="pkg:/source/fonts/code2000.ttf" size="24" />
-    </Label>
     <BusySpinner
       id="andySpinner"
       visible="true"

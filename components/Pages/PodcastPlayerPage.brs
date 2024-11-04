@@ -8,6 +8,7 @@ sub init()
   m.podcastEpisodeArt = m.top.findNode("podcastEpisodeArt")
   m.title = m.top.findNode("title")
 
+  m.playerContainer = m.top.findNode("playerContainer")
   m.progressBarContainer = m.top.findNode("progressBarContainer")
   m.progressBar = m.top.findNode("progressBar")
   m.currentSpot = m.top.findNode("currentSpot")
@@ -27,12 +28,13 @@ end sub
 sub assignProgressBarContainerTranslation()
   boundingRect = m.progressBarContainer.boundingRect()
   xTranslation = (1920 - boundingRect.width) / 2
-  yTranslation = 800
-  m.progressBarContainer.translation = [xTranslation, yTranslation]
-  'assign initial translation of current spot marker
+  yTranslation = 900
+  m.playerContainer.translation = [xTranslation, yTranslation]
   m.progBarLeftTranslationLimit = xTranslation + 120
-  m.progBarRightTranslationLimit = m.progBarLeftTranslationLimit + 1000
-  m.currentSpot.translation = [m.progBarLeftTranslationLimit, (yTranslation - 15)]
+  'use 997 pixels instead of 1000 to account for 3-pixel width of currentSpot marker
+  m.progBarRightTranslationLimit = m.progBarLeftTranslationLimit + 997
+  'assign initial translation of current spot marker
+  m.currentSpot.translation = [m.progBarLeftTranslationLimit, (yTranslation + 3)]
 end sub
 
 sub onPageParamsChange(msg as object)
@@ -128,7 +130,7 @@ sub onAudioStateChange(msg as object)
       m.andySpinner.visible = false
       m.podcastArtAndTitleContainer.visible = true
       m.currentSpot.visible = true
-      m.progressBarContainer.visible = true
+      m.playerContainer.visible = true
     end if
     return
   else if state = "finished"
