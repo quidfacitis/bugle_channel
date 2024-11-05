@@ -75,3 +75,16 @@ sub assignSpinnerTranslation(msg as object)
     m.spinnerNode.translation = [xTranslation, yTranslation]
   end if
 end sub
+
+function saveRegistryValue(section as string, key as string, value as string) as boolean
+  registrySection = CreateObject("roRegistrySection", section)
+  registrySection.write(key, value)
+  registrySection.flush()
+  return true
+end function
+
+function loadRegistrySection(section as string) as dynamic
+  registrySection = CreateObject("roRegistrySection", section)
+  keyList = registrySection.GetKeyList()
+  return registrySection.ReadMulti(keyList)
+end function

@@ -22,9 +22,16 @@ end sub
 
 sub onPageParamsChange(msg as object)
   pageParams = msg.getData()
-  m.pageParams = pageParams
-  m.podcastImg.uri = m.pageParams.podcastImg
-  fireGetPodcastEpisodesTask()
+
+  if m.pageParams.count() = 0
+    m.pageParams = pageParams
+    m.podcastImg.uri = m.pageParams.podcastImg
+    ?"***FIRING GET PODCAST EPISODES TASK"
+    fireGetPodcastEpisodesTask()
+  end if
+
+  m.episodeBookmarks = loadRegistrySection(m.pageParams.podcastName)
+  ?"EPISODE BOOKMARKS: "m.episodeBookmarks
 end sub
 
 sub fireGetPodcastEpisodesTask()
@@ -92,7 +99,9 @@ function onKeyEvent(key as string, press as boolean) as boolean
       navigateToPage(m.top, "PodcastPlayerPage", {
         episodeTitle: m.title.text,
         episodeMetadata: m.episodeMetadata[m.focusedIndex],
-        defaultPodcastImg: m.pageParams.podcastImg
+        defaultPodcastImg: m.pageParams.podcastImg,
+        podcastName: m.pageParams.podcastName,
+        elapsedSeconds: m.episodeBookmarks[m.episodeMetadata[m.focusedIndex]["acast:episodeId"]]
       })
       handled = true
     end if

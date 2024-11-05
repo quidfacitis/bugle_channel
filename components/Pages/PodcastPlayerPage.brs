@@ -42,6 +42,8 @@ sub onPageParamsChange(msg as object)
   m.pageParams = pageParams
   m.title.text = pageParams.episodeTitle
 
+  if pageParams.elapsedSeconds <> invalid then m.elapsedSeconds = pageParams.elapsedSeconds.toInt()
+
   if pageParams.episodeMetadata <> invalid
     createAudioNode(pageParams.episodeMetadata.enclosure)
     if pageParams.episodeMetadata["itunes:image"] <> invalid and pageParams.episodeMetadata["itunes:image"] <> ""
@@ -102,6 +104,7 @@ sub createAudioNode(podcastUrl as string)
 
   m.audio.observeField("state", "onAudioStateChange")
   m.audio.observeField("duration", "onAudioDurationChange")
+  m.audio.seek = m.elapsedSeconds
   m.audio.control = "play"
 end sub
 
@@ -111,10 +114,17 @@ end sub
 
 sub onAudioDurationChange(msg as object)
   totalSeconds = msg.getData()
-
   assignEndTime(convertSecondsToDuration(totalSeconds))
   m.totalSeconds = totalSeconds
   m.pixelsPerSecond = getPixelsPerSecond(totalSeconds)
+  if m.pageParams.elapsedSeconds <> invalid
+    'set currentSpot marker to bookmarked time
+    xAxisChange = m.pixelsPerSecond * m.elapsedSeconds
+    t = m.currentSpot.translation
+    m.currentSpot.translation = [(t[0] + xAxisChange), t[1]]
+    'set start time to bookmarked time
+    m.startTime.text = convertSecondsToDuration(m.elapsedSeconds)
+  end if
 end sub
 
 sub onAudioStateChange(msg as object)
@@ -231,6 +241,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
         handled = true
       end if
     else if (key = "back")
+      ?"***"m.pageParams.podcastName; m.pageParams.episodeMetadata["acast:episodeId"]; m.elapsedSeconds
+      saveRegistryValue(m.pageParams.podcastName, m.pageParams.episodeMetadata["acast:episodeId"], m.elapsedSeconds.toStr())
       navigateToPage(m.top, "", {})
       handled = true
     else if (key = "right")

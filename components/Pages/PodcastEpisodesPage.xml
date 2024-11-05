@@ -1,7 +1,7 @@
 <component name="PodcastEpisodesPage" extends="BaseControl">
 	<script type="text/brightscript" uri="./PodcastEpisodesPage.brs"/>
   <interface>
-    <field id="pageParams" type="assocArray" value="" onChange="onPageParamsChange" />
+    <field id="pageParams" type="assocArray" value="{}" onChange="onPageParamsChange" />
     <field id="initialFocus" type="string" value="episodeList" />
   </interface>
   <children>

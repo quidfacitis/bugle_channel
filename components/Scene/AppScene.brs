@@ -14,6 +14,11 @@ sub onCurrentPageChange(msg as object)
     m.pageContainer.removeChildIndex(0)
     newChildAtZero = m.pageContainer.getChild(0)
     newChildAtZero.visible = true
+
+    if newChildAtZero.hasField("pageParams")
+      newChildAtZero.pageParams = m.currentPageParams
+    end if
+
     if newChildAtZero.hasField("initialFocus")
       newChildAtZero.findNode(newChildAtZero.initialFocus).setFocus(true)
     else
