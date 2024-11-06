@@ -9,7 +9,7 @@ A Roku home for `The Bugle` podcast, as well as its sister podcasts `The Gargle`
 * Selecting an episode displays a page with an Audio node and custom progress bar to play the episode
 * Pressing "back" on the remote displays the previous page
 
-## How to sideload the channel locally
+## How to Sideload the Channel Locally
 
 Open the app in VS Code. Add the directory `.vscode` to the root of the app. In that directory, add the file `launch.json` with the following contents:
 
