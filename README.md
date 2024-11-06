@@ -11,7 +11,7 @@ A Roku home for `The Bugle` podcast, as well as its sister podcasts `The Gargle`
 
 ## How to sideload the channel locally
 
-Open the app in VS Code. Add a the directory `.vscode` to the root of the app. In that directory, add the file `launch.json` with the following contents:
+Open the app in VS Code. Add the directory `.vscode` to the root of the app. In that directory, add the file `launch.json` with the following contents:
 
 ```
 {
